@@ -3,12 +3,15 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
 
 function App() {
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+
+  const [selectedCard, setSelectedCard] = useState(null);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
@@ -26,13 +29,23 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
+    setSelectedCard(null);
+  }
+
+  function handleCardClick(clickedCard) {
+    setSelectedCard(clickedCard);
   }
 
   return (
     <div className="page">
 
       <Header />
-      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick}/>
+      <Main 
+        onEditProfile={handleEditProfileClick} 
+        onAddPlace={handleAddPlaceClick} 
+        onEditAvatar={handleEditAvatarClick}
+        onCardClick={handleCardClick}
+      />
       <Footer />
 
       <PopupWithForm 
@@ -81,35 +94,10 @@ function App() {
         )}
       />
 
-      <template id="card">
-        <li className="gallery__element">
-          <img src="<%=require('./images/profile/profile-pic.jpg')%>" alt="Картинка" className="gallery__image"/>
-          <button type="button" aria-label="Удалить картинку" className="gallery__delete-image-btn"></button>
-          <div className="gallery__image-description">
-            <h2 className="gallery__image-title">Карачаевск</h2>
-            <div className="gallery__like">
-              <button type="button" aria-label="Мне нравится" className="gallery__image-like-btn"></button>
-              <p className="gallery__number-of-likes">0</p>
-            </div>
-          </div>
-        </li>
-      </template>
-
-      <div className="popup popup_type_open-picture">
-        <div className="picture popup__content">
-          <button type="button" aria-label="Закрыть фотографию" className="popup__close-btn picture__close-btn close-btn"></button>
-          <img src="<%=require('./images/profile/profile-pic.jpg')%>" alt="Картинка" className="picture__image"/>
-          <h2 className="picture__title">Карачаево-Черкессия</h2>
-        </div>
-      </div>
-
-      <div className="popup popup_type_delete-card">
-        <div className="popup__container popup__content">
-          <button type="button" aria-label="Закрыть модальное окно" className="popup__close-btn close-btn"></button>
-          <h2 className="popup__title popup__title_small-margin-bottom">Вы&nbsp;уверены?</h2>
-          <button type="submit" className="popup__save-btn popup__save-btn_size_large">Да</button>
-        </div>
-      </div>
+      <ImagePopup 
+        selectedCard = {selectedCard}
+        onClose={closeAllPopups}
+      />
 
     </div>
   );
