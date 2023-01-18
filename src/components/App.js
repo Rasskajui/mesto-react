@@ -14,15 +14,15 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
 
   function handleEditAvatarClick() {
-    setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+    setIsEditAvatarPopupOpen(true);
   }
 
   function handleEditProfileClick() {
-    setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
+    setIsEditProfilePopupOpen(true);
   }
 
   function handleAddPlaceClick() {
-    setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
+    setIsAddPlacePopupOpen(true);
   }
 
   function closeAllPopups() {
@@ -59,9 +59,9 @@ function App() {
             <span className="popup__input-error input-error-name"></span>
             <input type="text" name="about" className="popup__form-item popup__form-item_el_about" placeholder="Род деятельности" minLength="2" maxLength="200" required/>
             <span className="popup__input-error input-error-about"></span>
-            <button type="submit" className="popup__save-btn">Сохранить</button>
           </>
         )}
+        buttonText='Сохранить'
       />
 
       <PopupWithForm 
@@ -73,9 +73,9 @@ function App() {
           <>
             <input type="url" name="avatar" className="popup__form-item popup__form-item_el_link" placeholder="Ссылка на картинку" required/>
             <span className="popup__input-error input-error-avatar"></span>
-            <button type="submit" className="popup__save-btn">Сохранить</button>
           </>
         )}
+        buttonText='Сохранить'
       />
 
       <PopupWithForm 
@@ -89,9 +89,9 @@ function App() {
             <span className="popup__input-error input-error-picture-name"></span>
             <input type="url" name="picture-link" className="popup__form-item popup__form-item_el_link" placeholder="Ссылка на картинку" required/>
             <span className="popup__input-error input-error-picture-link"></span>
-            <button type="submit" className="popup__save-btn">Создать</button>
           </>
         )}
+        buttonText='Создать'
       />
 
       <ImagePopup 

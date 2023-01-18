@@ -49,10 +49,10 @@ function Main(props) {
 
             <section className="gallery" aria-label="Галерея фотографий">
             <ul className="gallery__list">
-                {cards.map((card, inx) => (
+                {cards.map((card) => (
                             <Card 
                                 card={card} 
-                                key={inx}
+                                key={card._id}
                                 onCardClick={props.onCardClick}
                             />     
                         )

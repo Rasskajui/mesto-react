@@ -6,13 +6,13 @@ function Card(props) {
 
     return (
         <li className="gallery__element">
-            <img src={props.card.link} alt="Картинка" className="gallery__image" onClick={handleClick}/>
+            <img src={props.card.link} alt={props.card.name} className="gallery__image" onClick={handleClick}/>
             <button type="button" aria-label="Удалить картинку" className="gallery__delete-image-btn"/>
             <div className="gallery__image-description">
                 <h2 className="gallery__image-title">{props.card.name}</h2>
                 <div className="gallery__like">
                     <button type="button" aria-label="Мне нравится" className="gallery__image-like-btn"/>
-                    <p className="gallery__number-of-likes">0</p>
+                    <p className="gallery__number-of-likes">{props.card.likes.length}</p>
                 </div>
             </div>
         </li>
