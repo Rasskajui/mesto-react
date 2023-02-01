@@ -4,10 +4,10 @@ import Main from './Main';
 import Footer from './Footer';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarProfile from './EditAvatarPopup';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from "../utils/Api";
 import CurrentUserContext from "../contexts/CurrentUserContext";
+import AddPlacePopup from './AddPlacePopup';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -99,7 +99,13 @@ function App() {
       .then((updatedUser) => {setCurrentUser(updatedUser)})
       .then(() => {closeAllPopups()})
       .catch((err) => {console.log(err)})
+  }
 
+  function handleAddPlaceSubmit(newCard) {
+    api.addCard(newCard)
+      .then((card) => {setCards([card, ...cards])})
+      .then(() => {closeAllPopups()})
+      .catch((err) => {console.log(err)})
   }
 
   return (
@@ -108,7 +114,7 @@ function App() {
 
         <Header />
         <Main
-          cards = {cards}
+          cards={cards}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
@@ -120,22 +126,7 @@ function App() {
 
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
         <EditAvatarProfile isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
-
-        <PopupWithForm
-          name='add-picture'
-          title='Новое&nbsp;место'
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-          children={(
-            <>
-              <input type="text" name="picture-name" className="popup__form-item popup__form-item_el_card-name" placeholder="Название" minLength="2" maxLength="30" required/>
-              <span className="popup__input-error input-error-picture-name"></span>
-              <input type="url" name="picture-link" className="popup__form-item popup__form-item_el_link" placeholder="Ссылка на картинку" required/>
-              <span className="popup__input-error input-error-picture-link"></span>
-            </>
-          )}
-          buttonText='Создать'
-        />
+        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit}/>
 
         <ImagePopup
           selectedCard = {selectedCard}
