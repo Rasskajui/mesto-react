@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
+import EditProfilePopup from './EditProfilePopup';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from "../utils/Api";
@@ -77,13 +78,20 @@ function App() {
     }
 }
 
-function handleCardDelete(card) {
-  api.deleteCard(card._id)
-    .then(() => {
-      setCards(cards.filter((c) => c._id !== card._id))
-    })
-    .catch((err) => {console.log(err)})
-}
+  function handleCardDelete(card) {
+    api.deleteCard(card._id)
+      .then(() => {
+        setCards(cards.filter((c) => c._id !== card._id))
+      })
+      .catch((err) => {console.log(err)})
+  }
+
+  function handleUpdateUser(newUserInfo) {
+    api.updateUserInfo(newUserInfo.name, newUserInfo.about)
+      .then((updatedUser) => {setCurrentUser(updatedUser)})
+      .then(() => {closeAllPopups()})
+      .catch((err) => {console.log(err)})
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -101,21 +109,7 @@ function handleCardDelete(card) {
         />
         <Footer />
 
-        <PopupWithForm
-          name='edit-profile'
-          title='Редактировать&nbsp;профиль'
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-          children={(
-            <>
-              <input type="text" name="name" className="popup__form-item popup__form-item_el_name" placeholder="Имя пользователя" minLength="2" maxLength="40" required/>
-              <span className="popup__input-error input-error-name"></span>
-              <input type="text" name="about" className="popup__form-item popup__form-item_el_about" placeholder="Род деятельности" minLength="2" maxLength="200" required/>
-              <span className="popup__input-error input-error-about"></span>
-            </>
-          )}
-          buttonText='Сохранить'
-        />
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
 
         <PopupWithForm
           name='change-avatar'
