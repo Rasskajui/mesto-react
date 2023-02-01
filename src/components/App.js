@@ -3,6 +3,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarProfile from './EditAvatarPopup';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from "../utils/Api";
@@ -93,6 +94,14 @@ function App() {
       .catch((err) => {console.log(err)})
   }
 
+  function handleUpdateAvatar(newAvatarInfo) {
+    api.updateAvatar(newAvatarInfo.avatar)
+      .then((updatedUser) => {setCurrentUser(updatedUser)})
+      .then(() => {closeAllPopups()})
+      .catch((err) => {console.log(err)})
+
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -110,20 +119,7 @@ function App() {
         <Footer />
 
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
-
-        <PopupWithForm
-          name='change-avatar'
-          title='Обновить&nbsp;аватар'
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          children={(
-            <>
-              <input type="url" name="avatar" className="popup__form-item popup__form-item_el_link" placeholder="Ссылка на картинку" required/>
-              <span className="popup__input-error input-error-avatar"></span>
-            </>
-          )}
-          buttonText='Сохранить'
-        />
+        <EditAvatarProfile isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
 
         <PopupWithForm
           name='add-picture'
@@ -148,8 +144,7 @@ function App() {
 
       </div>
     </CurrentUserContext.Provider>
-
-          );
+  );
 }
 
 export default App;
