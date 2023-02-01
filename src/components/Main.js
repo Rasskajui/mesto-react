@@ -1,26 +1,9 @@
-import {useContext, useEffect, useState} from 'react';
+import {useContext} from 'react';
 import Card from './Card';
-import api from '../utils/Api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
 function Main(props) {
     const currentUser = useContext(CurrentUserContext);
-
-    const [cards, setCards] = useState([]);
-
-    useEffect(() => {
-        async function setData() {
-            await api.getCards()
-                .then((userCards) => {
-                    setCards(userCards);
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        }
-        setData();
-    }, []);
-
 
     return (
         <main className="main">
@@ -39,11 +22,13 @@ function Main(props) {
 
             <section className="gallery" aria-label="Галерея фотографий">
             <ul className="gallery__list">
-                {cards.map((card) => (
+                {props.cards.map((card) => (
                             <Card 
                                 card={card} 
                                 key={card._id}
                                 onCardClick={props.onCardClick}
+                                onCardLike={props.onCardLike}
+                                onCardDelete={props.onCardDelete}
                             />     
                         )
                     )

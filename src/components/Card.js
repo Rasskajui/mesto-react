@@ -15,7 +15,11 @@ function Card(props) {
     } 
 
     function handleDeleteClick() {
+        props.onCardDelete(props.card);
+    }
 
+    function handleLikeClick() {
+        props.onCardLike(props.card, isLiked);
     }
 
     return (
@@ -25,7 +29,7 @@ function Card(props) {
             <div className="gallery__image-description">
                 <h2 className="gallery__image-title">{props.card.name}</h2>
                 <div className="gallery__like">
-                    <button type="button" aria-label="Мне нравится" className={cardLikeButtonClassName}/>
+                    <button type="button" aria-label="Мне нравится" className={cardLikeButtonClassName} onClick={handleLikeClick}/>
                     <p className="gallery__number-of-likes">{props.card.likes.length}</p>
                 </div>
             </div>
