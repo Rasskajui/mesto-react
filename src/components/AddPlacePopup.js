@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup(props) {
     const [pictureName, setPictureName] = useState('');
     const [pictureUrl, setPictureUrl] = useState('');
+
+    useEffect(() => {
+      setPictureName('');
+      setPictureUrl('');
+    }, [props.isOpen]);
 
     function handleChange(e) {
         e.target.name === 'picture-name' ? setPictureName(e.target.value) : setPictureUrl(e.target.value);

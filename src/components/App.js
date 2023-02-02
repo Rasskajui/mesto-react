@@ -13,6 +13,12 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [cards, setCards] = useState([]);
 
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+
+  const [selectedCard, setSelectedCard] = useState(null);
+
   useEffect(() => {
     async function setUser() {
       await api.getUserInfo()
@@ -33,12 +39,6 @@ function App() {
     }
     setData();
   }, []);
-
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-
-  const [selectedCard, setSelectedCard] = useState(null);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -82,7 +82,7 @@ function App() {
   function handleCardDelete(card) {
     api.deleteCard(card._id)
       .then(() => {
-        setCards(cards.filter((c) => c._id !== card._id))
+        setCards((state) => state.filter((c) => c._id !== card._id))
       })
       .catch((err) => {console.log(err)})
   }
